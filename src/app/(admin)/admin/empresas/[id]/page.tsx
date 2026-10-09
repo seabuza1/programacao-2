@@ -9,6 +9,7 @@ import {
   listarAnotacoes,
 } from '@/features/anotacoes';
 import { FormEmpresa, lerEmpresa } from '@/features/empresas';
+import { ZonaLgpd } from '@/features/lgpd';
 import { SelosDeAlerta } from '@/features/painel';
 import { ListaVinculos, listarVinculos } from '@/features/usuarios';
 import { mesAtual, nomeDoMes } from '@/lib/datas';
@@ -99,6 +100,12 @@ export default async function DetalheEmpresa({ params }: Props) {
         <h2>Dados da empresa</h2>
         <FormEmpresa empresa={empresa} />
       </section>
+      {ehAdmin && (
+        <section className="cartao pilha">
+          <h2>Dados pessoais (LGPD)</h2>
+          <ZonaLgpd empresa={empresa} />
+        </section>
+      )}
     </div>
   );
 }

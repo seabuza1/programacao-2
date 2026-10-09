@@ -826,6 +826,8 @@ export type Database = {
       };
       criar_empresa: { Args: { p_nome: string }; Returns: string };
       eh_admin_plataforma: { Args: Record<PropertyKey, never>; Returns: boolean };
+      excluindo_empresa: { Args: { p_empresa_id: string }; Returns: boolean };
+      excluir_empresa: { Args: { p_confirmacao: string; p_empresa_id: string }; Returns: string[] };
       mes_fechado: {
         Args: { p_ano: number; p_empresa_id: string; p_mes: number };
         Returns: boolean;

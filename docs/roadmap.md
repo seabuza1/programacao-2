@@ -39,7 +39,7 @@ Telas da empresa: Resumo do mês (faturamento, previsão contra a meta, saldos, 
 - [x] 4.1 Rate limit em login, convite, redefinição de senha e exportação. Proteção contra bot no login.
 - [x] 4.2 Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options, X-Content-Type-Options), HTTPS forçado, cookies com HttpOnly, Secure e SameSite.
 - [x] 4.3 Auditoria de segurança de 20 itens (abaixo). Para cada um: OK, FALHA ou NÃO SE APLICA, com arquivo e linha. Liste as falhas por gravidade, proponha a correção e espere meu OK.
-- [ ] 4.4 LGPD: exportação completa dos dados de uma empresa e exclusão com confirmação. Páginas de termos de uso e política de privacidade com texto marcado "RASCUNHO, revisar com advogado".
+- [x] 4.4 LGPD: exportação completa dos dados de uma empresa e exclusão com confirmação. Páginas de termos de uso e política de privacidade com texto marcado "RASCUNHO, revisar com advogado".
 - [ ] 4.5 Monitor de erros sem dados financeiros nem pessoais nos eventos.
 - [ ] 4.6 `docs/producao.md`: passo a passo para eu criar o projeto de produção, aplicar migrations, criar a primeira admin, ligar backups e recuperação ponto a ponto, e testar uma restauração. `docs/incidente.md`: plano de uma página.
 

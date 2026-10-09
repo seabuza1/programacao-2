@@ -6,12 +6,24 @@ import { NOME_DO_SETOR } from '@/features/precificacao';
 
 export const metadata: Metadata = { title: 'Empresas' };
 
-export default async function Empresas() {
+interface Props {
+  searchParams: Promise<{ excluida?: string }>;
+}
+
+export default async function Empresas({ searchParams }: Props) {
   const { supabase } = await exigirAdminPlataforma();
   const empresas = await listarEmpresas(supabase);
+  const { excluida } = await searchParams;
   return (
     <div className="pilha">
       <h1>Empresas</h1>
+      {excluida === '1' && <p className="aviso aviso-ok">Empresa e dados excluídos.</p>}
+      {excluida === 'parcial' && (
+        <p className="aviso aviso-alerta">
+          Empresa excluída, mas alguma conta de usuário não pôde ser apagada. Veja
+          docs/incidente.md.
+        </p>
+      )}
       <section className="cartao pilha">
         <h2>Nova empresa</h2>
         <FormNovaEmpresa />
