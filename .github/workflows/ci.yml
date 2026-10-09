@@ -56,6 +56,11 @@ jobs:
       - name: Testes de isolamento
         run: pnpm test:db
 
+      # Só dados fictícios no banco local; mostra os erros do Auth para achar a causa de uma falha.
+      - name: Erros do Auth local (só se falhar)
+        if: failure()
+        run: docker logs supabase_auth_gestao-facil 2>&1 | grep -E '"level":"(error|fatal)"|"status":5[0-9]{2}' | tail -50 || true
+
       - name: Build
         run: pnpm build
 
