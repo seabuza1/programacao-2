@@ -1,9 +1,16 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Gestão Fácil',
+  title: { default: 'Gestão Fácil', template: '%s · Gestão Fácil' },
   description: 'Livro caixa multiempresa',
+  robots: { index: false, follow: false },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
