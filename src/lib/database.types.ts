@@ -3,6 +3,45 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      anotacoes: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          empresa_id: string;
+          id: string;
+          texto: string;
+          updated_at: string;
+          visivel_para_empresa: boolean;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id: string;
+          id?: string;
+          texto: string;
+          updated_at?: string;
+          visivel_para_empresa?: boolean;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id?: string;
+          id?: string;
+          texto?: string;
+          updated_at?: string;
+          visivel_para_empresa?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'anotacoes_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       auditoria: {
         Row: {
           antes: Json | null;
@@ -54,6 +93,7 @@ export type Database = {
           created_by: string | null;
           id: string;
           nome: string;
+          setor: string | null;
           updated_at: string;
         };
         ComputedFields: never;
@@ -62,6 +102,7 @@ export type Database = {
           created_by?: string | null;
           id?: string;
           nome: string;
+          setor?: string | null;
           updated_at?: string;
         };
         Update: {
@@ -69,6 +110,7 @@ export type Database = {
           created_by?: string | null;
           id?: string;
           nome?: string;
+          setor?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -754,6 +796,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      alterar_vinculo: {
+        Args: { p_papel: Database['public']['Enums']['papel']; p_vinculo_id: string };
+        Returns: undefined;
+      };
       compartilha_empresa: { Args: { p_usuario_id: string }; Returns: boolean };
       criar_empresa: { Args: { p_nome: string }; Returns: string };
       eh_admin_plataforma: { Args: Record<PropertyKey, never>; Returns: boolean };
@@ -762,8 +808,33 @@ export type Database = {
         Returns: boolean;
       };
       mfa_ok: { Args: Record<PropertyKey, never>; Returns: boolean };
+      painel_empresas: {
+        Args: { p_ano: number; p_mes: number };
+        Returns: {
+          dias_lancados_mes: number;
+          dias_previstos: number;
+          empresa_id: string;
+          entradas_banco: number;
+          entradas_dinheiro: number;
+          faturamento_mes: number;
+          margem_lucro: number;
+          meta_faturamento: number;
+          movimento_banco: number;
+          movimento_dinheiro: number;
+          nome: string;
+          pro_labore_mes: number;
+          saidas_mes: number;
+          saldo_inicial_banco: number;
+          saldo_inicial_dinheiro: number;
+          setor: string;
+          taxas_cartao: number;
+          taxas_cartao_mes: number;
+          ultimo_lancamento: string;
+        }[];
+      };
       pode_convidar: { Args: { p_empresa_id: string }; Returns: boolean };
       precisa_mfa: { Args: Record<PropertyKey, never>; Returns: boolean };
+      remover_vinculo: { Args: { p_vinculo_id: string }; Returns: undefined };
       semear_cadastros_padrao: { Args: { p_empresa_id: string }; Returns: undefined };
       tem_acesso: { Args: { p_empresa_id: string }; Returns: boolean };
       tem_papel: {
