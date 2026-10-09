@@ -4,7 +4,7 @@ Uma etapa por vez. Marque `[x]` ao concluir. Cada fase só começa quando o crit
 
 ## Fase 1 — Fundação segura
 - [x] 1.1 Repositório, Next.js, TypeScript strict, ESLint, Prettier, Vitest, scripts do package.json, `src/lib/money.ts` e `src/lib/percent.ts` com testes.
-- [ ] 1.2 Supabase local e migration inicial: `empresas` (só nome), `usuarios`, `vinculos`, `auditoria`, função `tem_acesso(empresa_id)`, RLS e testes de isolamento. Seed local com uma admin de e-mail e senha fictícios.
+- [x] 1.2 Supabase local e migration inicial: `empresas` (só nome), `usuarios`, `vinculos`, `auditoria`, função `tem_acesso(empresa_id)`, RLS e testes de isolamento. Seed local com uma admin de e-mail e senha fictícios.
 - [ ] 1.3 Login por e-mail e senha, segundo fator (TOTP) obrigatório para `admin_plataforma`, `admin` e `dono`, convite de usuário, redefinição de senha.
 - [ ] 1.4 Layout base: área da empresa e área da administradora protegidas por papel, seletor de empresa ativa, telas vazias.
 - [ ] 1.5 CI no GitHub Actions: lint, typecheck e testes.

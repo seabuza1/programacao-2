@@ -11,7 +11,8 @@ Livro caixa multiempresa com painel da administradora. Dados financeiros sensív
 ## Comandos
 (atualize com os scripts reais)
 - `pnpm dev` · `pnpm build` · `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm format`
-- `supabase start` · `supabase db reset` (a partir da etapa 1.2)
+- `pnpm supabase start` · `pnpm db:reset` (aplica migrations e seed) · `pnpm db:types` (gera `src/lib/database.types.ts`)
+- `pnpm test:db`: testes de isolamento contra o Supabase local
 
 ## Estrutura
 - `src/app/`: rotas e telas. Sem regra de negócio.
