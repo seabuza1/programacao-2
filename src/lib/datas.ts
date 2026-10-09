@@ -42,6 +42,11 @@ export function hojeEmSaoPaulo(agora: Date): string {
   return `${valor('year')}-${valor('month')}-${valor('day')}`;
 }
 
+/** Mês corrente em São Paulo. */
+export function mesAtual(agora: Date): Mes {
+  return mesDe(hojeEmSaoPaulo(agora));
+}
+
 export function diasNoMes({ ano, mes }: Mes): number {
   return new Date(Date.UTC(ano, mes, 0)).getUTCDate();
 }

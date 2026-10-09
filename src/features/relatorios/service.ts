@@ -7,7 +7,21 @@ import {
   type Forma,
   type Grupo,
 } from '@/features/cadastros';
-import type { Movimentacao } from '@/features/fluxo-caixa';
+import {
+  faturamento as faturamentoDe,
+  resumirCaixaDiario,
+  type Entrada,
+} from '@/features/caixa-diario';
+import type { ParametrosMes, SaldosIniciais } from '@/features/cadastros';
+import {
+  crediarioAReceber,
+  despesasDeCartao,
+  livroDoMes,
+  saldoInicialDoMes,
+  type Movimentacao,
+  type TaxasPorMes,
+} from '@/features/fluxo-caixa';
+import { compararMeses, mesDe, type Mes } from '@/lib/datas';
 import { aplicarPercentual, dividir, somar, subtrair, ZERO, type Centavos } from '@/lib/money';
 import { percentual, razao, type Percentual } from '@/lib/percent';
 
@@ -284,4 +298,65 @@ export function analiseFaturamento(dados: {
       realizado: dividir(total.realizado, 12),
     },
   };
+}
+
+// Consolidação ------------------------------------------------------------------
+
+export interface Historico {
+  formas: Forma[];
+  contas: Conta[];
+  taxas: TaxasPorMes;
+  saldosIniciais: SaldosIniciais | null;
+  entradas: Entrada[];
+  movimentacoes: Movimentacao[];
+}
+
+function doMes<T extends { data: string }>(itens: T[], mes: Mes): T[] {
+  return itens.filter((item) => compararMeses(mesDe(item.data), mes) === 0);
+}
+
+/** Tudo o que as telas mostram de um mês: caixa diário, livro, DRE e crediário. */
+export function resumoDoMes(historico: Historico, mes: Mes, parametros: ParametrosMes) {
+  const { formas, contas, taxas } = historico;
+  const entradas = doMes(historico.entradas, mes);
+  const movimentacoes = doMes(historico.movimentacoes, mes);
+  const caixa = resumirCaixaDiario({ mes, formas, entradas, indicadores: [], parametros });
+  const saldoInicial = saldoInicialDoMes(mes, historico.saldosIniciais, historico);
+  const livro = saldoInicial
+    ? livroDoMes({ mes, saldoInicial, formas, contas, entradas, movimentacoes, taxas })
+    : null;
+  const despesasCartao = despesasDeCartao(formas, entradas, taxas);
+  return {
+    caixa,
+    livro,
+    despesasCartao,
+    gerencial: gerencialDoMes({
+      contas,
+      movimentacoes,
+      despesasCartao,
+      faturamento: caixa.faturamento,
+    }),
+    crediario: crediarioAReceber(mes, formas, historico.entradas, historico.movimentacoes),
+  };
+}
+
+/** Os 12 meses do ano no formato do relatório anual. */
+export function dadosDoAno(historico: Historico, ano: number): DadosDoMes[] {
+  return Array.from({ length: 12 }, (_, i) => {
+    const mes = { ano, mes: i + 1 };
+    const entradas = doMes(historico.entradas, mes);
+    const entradasPorForma: Record<string, Centavos> = {};
+    for (const e of entradas) {
+      entradasPorForma[e.formaId] = somar(entradasPorForma[e.formaId] ?? ZERO, e.valor);
+    }
+    return {
+      faturamento: faturamentoDe(historico.formas, entradas),
+      entradasPorForma,
+      saidasPorConta: saidasPorConta(
+        historico.contas,
+        doMes(historico.movimentacoes, mes),
+        despesasDeCartao(historico.formas, entradas, historico.taxas),
+      ),
+    };
+  });
 }

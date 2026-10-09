@@ -238,6 +238,14 @@ textarea {
   resize: vertical;
 }
 
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background: var(--superficie-2);
+  color: var(--texto-suave);
+  cursor: not-allowed;
+}
+
 input[aria-invalid='true'] {
   border-color: var(--perigo);
 }
@@ -399,10 +407,14 @@ input[type='checkbox'] {
 }
 
 .tabela th {
-  background: var(--superficie-2);
   font-weight: 600;
+}
+
+.tabela thead th {
+  background: var(--superficie-2);
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .tabela .num {
@@ -422,9 +434,9 @@ input[type='checkbox'] {
   z-index: 1;
 }
 
-.tabela th.fixa {
+.tabela thead th.fixa {
   background: var(--superficie-2);
-  z-index: 2;
+  z-index: 3;
 }
 
 .tabela input {

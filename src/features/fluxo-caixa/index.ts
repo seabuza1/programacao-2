@@ -17,3 +17,6 @@ export {
   type TaxasPorMes,
   type TipoMovimentacao,
 } from './service';
+export { FormMovimentacao } from './components/FormMovimentacao';
+export { TabelaLivro } from './components/TabelaLivro';
+export { carregarHistorico } from './repository';

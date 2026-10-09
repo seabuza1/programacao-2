@@ -12,3 +12,5 @@ export {
   type ResultadoMarkup,
   type Setor,
 } from './service';
+export { FormMarkup, FormProduto, TabelaProdutos } from './components/Precificacao';
+export { lerParametrosMarkup, listarProdutos } from './repository';

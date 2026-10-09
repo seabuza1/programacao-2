@@ -3,23 +3,34 @@ import { dataValida, parseMes } from './datas';
 import { parseReais, type Centavos } from './money';
 import { parsePercentual, type Percentual } from './percent';
 
-/** Valor em reais digitado em pt-BR ("1.234,56") → centavos. */
-export function campoReais({ minimo = 0, opcional = false } = {}) {
-  return z.string().transform((texto, ctx): Centavos | null => {
-    if (opcional && texto.trim() === '') {
-      return null;
-    }
-    const valor = parseReais(texto);
-    if (valor === null) {
-      ctx.addIssue({ code: 'custom', message: 'Valor inválido. Use o formato 1.234,56.' });
-      return z.NEVER;
-    }
-    if (valor < minimo) {
-      ctx.addIssue({ code: 'custom', message: 'O valor não pode ser negativo.' });
-      return z.NEVER;
-    }
-    return valor;
-  });
+// Mensagens padrão do Zod em português, para qualquer campo sem mensagem própria.
+z.config(z.locales.ptBR());
+
+function lerReais(texto: string, minimo: number, ctx: z.RefinementCtx): Centavos {
+  const valor = parseReais(texto);
+  if (valor === null) {
+    ctx.addIssue({ code: 'custom', message: 'Valor inválido. Use o formato 1.234,56.' });
+    return z.NEVER;
+  }
+  if (valor < minimo) {
+    ctx.addIssue({ code: 'custom', message: 'O valor não pode ser negativo.' });
+    return z.NEVER;
+  }
+  return valor;
+}
+
+/** Valor em reais digitado em pt-BR ("1.234,56") → centavos. Vazio vale zero. */
+export function campoReais({ minimo = 0 } = {}) {
+  return z
+    .string()
+    .transform((texto, ctx) => lerReais(texto.trim() === '' ? '0' : texto, minimo, ctx));
+}
+
+/** Como campoReais, mas vazio vira null. */
+export function campoReaisOpcional({ minimo = 0 } = {}) {
+  return z
+    .string()
+    .transform((texto, ctx) => (texto.trim() === '' ? null : lerReais(texto, minimo, ctx)));
 }
 
 /** Percentual digitado ("1,2" ou "1,2%") → centésimos de %. */
@@ -46,7 +57,13 @@ export function campoInteiro({ minimo = 0, maximo = 1_000_000 } = {}) {
     .string()
     .trim()
     .transform((texto) => (texto === '' ? '0' : texto))
-    .pipe(z.coerce.number<string>().int('Use um número inteiro.').min(minimo).max(maximo));
+    .pipe(
+      z.coerce
+        .number<string>('Use um número inteiro.')
+        .int('Use um número inteiro.')
+        .min(minimo, `Use um número a partir de ${minimo}.`)
+        .max(maximo, `Use um número até ${maximo}.`),
+    );
 }
 
 /** 'AAAA-MM-DD' válida no calendário real. */
