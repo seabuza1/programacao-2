@@ -37,6 +37,10 @@ Dependência em um sentido: `app → features → lib`. O ESLint barra import fo
 
 `features/acesso/sessao.ts` concentra as checagens de servidor: `exigirUsuario`, `exigirEmpresa`, `exigirAdminPlataforma`.
 
+`src/lib/ui/Formulario.tsx` liga um formulário a uma Server Action: mostra o aviso, passa o erro de cada campo e mantém o que foi digitado quando há erro. As páginas montam formulários sem código de cliente próprio.
+
+Relatórios e saldos partem de um único histórico (`fluxo-caixa/repository.ts` → `carregarHistorico`), consolidado por funções puras (`relatorios/service.ts` → `resumoDoMes`, `dadosDoAno`). A API do Supabase devolve no máximo 1.000 linhas por chamada; as leituras grandes usam `src/lib/supabase/paginar.ts`.
+
 ## Fluxo de uma mutação
 
 1. **Autenticar:** `exigirUsuario()` ou `exigirEmpresa()`. Sem sessão vai para `/entrar`; papel que exige segundo fator sem ele vai para `/entrar/segundo-fator`.

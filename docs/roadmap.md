@@ -13,14 +13,14 @@ Uma etapa por vez. Marque `[x]` ao concluir. Cada fase só começa quando o crit
 **Saída:** os testes de isolamento passam no CI.
 
 ## Fase 2 — Livro caixa
-- [ ] 2.1 Cadastros: `formas_recebimento`, `plano_contas` (seed padrão ao criar empresa), `parametros_mes`, `saldos_iniciais`.
-- [ ] 2.2 Caixa diário: lançamento por dia e forma, indicadores do dia, totais, participação, médias e previsão. Testes A e D.
-- [ ] 2.3 Fluxo de caixa: movimentações, entradas e despesas automáticas, saldos encadeados mês a mês, crediário a receber. Testes B, E e I.
-- [ ] 2.4 Relatório gerencial e DRE. Testes C e F.
-- [ ] 2.5 Relatório anual e pró-labore. Teste G.
-- [ ] 2.6 Fechamento e reabertura de mês, com trava no banco.
-- [ ] 2.7 Precificação. Teste H.
-- [ ] 2.8 Análise de faturamento.
+- [x] 2.1 Cadastros: `formas_recebimento`, `plano_contas` (seed padrão ao criar empresa), `parametros_mes`, `saldos_iniciais`.
+- [x] 2.2 Caixa diário: lançamento por dia e forma, indicadores do dia, totais, participação, médias e previsão. Testes A e D.
+- [x] 2.3 Fluxo de caixa: movimentações, entradas e despesas automáticas, saldos encadeados mês a mês, crediário a receber. Testes B, E e I.
+- [x] 2.4 Relatório gerencial e DRE. Testes C e F.
+- [x] 2.5 Relatório anual e pró-labore. Teste G.
+- [x] 2.6 Fechamento e reabertura de mês, com trava no banco.
+- [x] 2.7 Precificação. Teste H.
+- [x] 2.8 Análise de faturamento.
 
 Telas da empresa: Resumo do mês (faturamento, previsão contra a meta, saldos, lucro), Caixa diário (grade de dias por formas, editável, como na planilha), Fluxo de caixa (livro com saldo corrente), Relatórios, Precificação, Configurações. Tudo utilizável no celular.
 
