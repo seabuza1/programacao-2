@@ -10,8 +10,9 @@ export type ClienteSupabase = SupabaseClient<Database>;
 
 /** Cliente com a sessão do usuário da requisição. RLS sempre vale. */
 export async function criarClienteServidor(): Promise<ClienteSupabase> {
-  const { supabaseUrl, supabasePublishableKey } = ambiente();
+  // cookies() antes de ambiente(): marca a rota como dinâmica antes de ler as variáveis.
   const cookieStore = await cookies();
+  const { supabaseUrl, supabasePublishableKey } = ambiente();
   return createServerClient<Database>(supabaseUrl, supabasePublishableKey, {
     cookieOptions: opcoesCookieSessao,
     cookies: {

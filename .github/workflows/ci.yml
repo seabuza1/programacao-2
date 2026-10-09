@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Lint, typecheck e testes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      SUPABASE_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Formatação
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Testes unitários
+        run: pnpm test
+
+      - name: Subir Supabase local (aplica migrations e seed)
+        run: pnpm supabase start -x studio,imgproxy,mailpit,logflare,vector,supavisor,edge-runtime,realtime,storage-api
+
+      - name: Tipos gerados batem com o banco
+        run: |
+          pnpm db:types
+          git diff --exit-code src/lib/database.types.ts
+
+      - name: Testes de isolamento
+        run: pnpm test:db
+
+      - name: Build
+        run: pnpm build
+
+      - name: Auditoria de dependências
+        run: pnpm audit --prod --audit-level high
