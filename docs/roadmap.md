@@ -36,8 +36,8 @@ Telas da empresa: Resumo do mês (faturamento, previsão contra a meta, saldos, 
 **Saída:** a administradora usa o painel numa reunião real com dados fictícios.
 
 ## Fase 4 — Endurecimento
-- [ ] 4.1 Rate limit em login, convite, redefinição de senha e exportação. Proteção contra bot no login.
-- [ ] 4.2 Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options, X-Content-Type-Options), HTTPS forçado, cookies com HttpOnly, Secure e SameSite.
+- [x] 4.1 Rate limit em login, convite, redefinição de senha e exportação. Proteção contra bot no login.
+- [x] 4.2 Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options, X-Content-Type-Options), HTTPS forçado, cookies com HttpOnly, Secure e SameSite.
 - [ ] 4.3 Auditoria de segurança de 20 itens (abaixo). Para cada um: OK, FALHA ou NÃO SE APLICA, com arquivo e linha. Liste as falhas por gravidade, proponha a correção e espere meu OK.
 - [ ] 4.4 LGPD: exportação completa dos dados de uma empresa e exclusão com confirmação. Páginas de termos de uso e política de privacidade com texto marcado "RASCUNHO, revisar com advogado".
 - [ ] 4.5 Monitor de erros sem dados financeiros nem pessoais nos eventos.
