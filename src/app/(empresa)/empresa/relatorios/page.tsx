@@ -94,7 +94,10 @@ async function Gerencial({
   );
   return (
     <section className="pilha">
-      <SeletorMes mes={mes} caminho="/empresa/relatorios" parametros={{ aba: 'gerencial' }} />
+      <div className="linha">
+        <SeletorMes mes={mes} caminho="/empresa/relatorios" parametros={{ aba: 'gerencial' }} />
+        <Exportar relatorio="gerencial" periodo={chaveDoMes(mes)} />
+      </div>
       <p className="suave pequeno">
         Despesas financeiras incluem as taxas de cartão do mês. Lucro = faturamento − fixos −
         variáveis − investimentos.
@@ -114,7 +117,10 @@ async function Anual({ empresaId, supabase, ano }: Dados & { ano: number }) {
   const anual = relatorioAnual({ formas: historico.formas, contas: historico.contas, meses });
   return (
     <section className="pilha">
-      <SeletorAno ano={ano} caminho="/empresa/relatorios" parametros={{ aba: 'anual' }} />
+      <div className="linha">
+        <SeletorAno ano={ano} caminho="/empresa/relatorios" parametros={{ aba: 'anual' }} />
+        <Exportar relatorio="anual" periodo={String(ano)} />
+      </div>
       <TabelaAnual anual={anual} />
     </section>
   );
@@ -161,5 +167,20 @@ async function Analise({
         </details>
       )}
     </section>
+  );
+}
+
+function Exportar({ relatorio, periodo }: { relatorio: string; periodo: string }) {
+  const href = (formato: string) =>
+    `/empresa/relatorios/exportar?${new URLSearchParams({ relatorio, formato, periodo }).toString()}`;
+  return (
+    <span className="linha">
+      <a className="botao botao-secundario" href={href('xlsx')} download>
+        Baixar Excel
+      </a>
+      <a className="botao botao-secundario" href={href('pdf')} download>
+        Baixar PDF
+      </a>
+    </span>
   );
 }

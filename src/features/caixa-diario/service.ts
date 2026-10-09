@@ -54,6 +54,25 @@ export function faturamento(formas: Forma[], entradas: Entrada[]): Centavos {
   return somar(...entradas.filter((e) => contam.has(e.formaId)).map((e) => e.valor));
 }
 
+/**
+ * previsao_fechamento = media_realizada × dias_previstos, com media_realizada = faturamento ÷ dias
+ * lançados. Arredonda uma vez só (decisão A3). Sem dias lançados ou previstos: null.
+ */
+export function previsaoDeFechamento(
+  faturamentoDoMes: Centavos,
+  diasPrevistos: number,
+  diasLancados: number,
+): Centavos | null {
+  if (diasLancados === 0 || diasPrevistos === 0) {
+    return null;
+  }
+  return centavos(
+    Number(
+      dividirArredondado(BigInt(faturamentoDoMes) * BigInt(diasPrevistos), BigInt(diasLancados)),
+    ),
+  );
+}
+
 export function resumirCaixaDiario(dados: {
   mes: Mes;
   formas: Forma[];
@@ -95,18 +114,7 @@ export function resumirCaixaDiario(dados: {
   const diasLancados = dias.filter((dia) => dia.total > 0).length;
   const mediaNecessaria = dividir(parametros.meta, parametros.diasPrevistos);
   const mediaRealizada = dividir(fat, diasLancados);
-  // media_realizada × dias_previstos, arredondando uma vez só.
-  const previsao =
-    diasLancados === 0 || parametros.diasPrevistos === 0
-      ? null
-      : centavos(
-          Number(
-            dividirArredondado(
-              BigInt(fat) * BigInt(parametros.diasPrevistos),
-              BigInt(diasLancados),
-            ),
-          ),
-        );
+  const previsao = previsaoDeFechamento(fat, parametros.diasPrevistos, diasLancados);
 
   const qtdVendas = indicadores.reduce((total, i) => total + i.qtdVendas, 0);
   return {

@@ -31,3 +31,40 @@ export async function vincularPorEmail(
     p_papel: papel,
   });
 }
+
+export interface VinculoDaEmpresa {
+  id: string;
+  usuarioId: string;
+  nome: string;
+  email: string;
+  papel: Papel;
+}
+
+/** RLS: admin e dono veem os vínculos da empresa; os demais, só o próprio. */
+export async function listarVinculos(
+  sb: ClienteSupabase,
+  empresaId: string,
+): Promise<VinculoDaEmpresa[]> {
+  const { data, error } = await sb
+    .from('vinculos')
+    .select('id, papel, usuario_id, usuarios(nome, email)')
+    .eq('empresa_id', empresaId);
+  if (error) throw new Error('Falha ao ler os usuários da empresa.');
+  return data
+    .map((v) => ({
+      id: v.id,
+      usuarioId: v.usuario_id,
+      nome: v.usuarios?.nome ?? '',
+      email: v.usuarios?.email ?? '',
+      papel: v.papel,
+    }))
+    .sort((a, b) => a.email.localeCompare(b.email));
+}
+
+export function alterarPapel(sb: ClienteSupabase, vinculoId: string, papel: Papel) {
+  return sb.rpc('alterar_vinculo', { p_vinculo_id: vinculoId, p_papel: papel });
+}
+
+export function removerVinculo(sb: ClienteSupabase, vinculoId: string) {
+  return sb.rpc('remover_vinculo', { p_vinculo_id: vinculoId });
+}

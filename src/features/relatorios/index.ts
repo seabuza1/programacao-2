@@ -22,3 +22,4 @@ export {
   TabelaProLabore,
 } from './components/Relatorios';
 export { lerAnalise } from './repository';
+export { tabelaAnual, tabelaGerencial } from './exportacao';

@@ -10,3 +10,10 @@ export const esquemaConvite = z.object({
   empresaId: z.uuid('Escolha a empresa.'),
   papel: z.enum(PAPEIS, 'Escolha o papel.'),
 });
+
+export const esquemaAlterarVinculo = z.object({
+  vinculoId: z.uuid(),
+  papel: z.enum(PAPEIS),
+});
+
+export const esquemaRemoverVinculo = z.object({ vinculoId: z.uuid() });

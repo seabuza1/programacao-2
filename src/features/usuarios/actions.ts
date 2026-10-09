@@ -11,8 +11,14 @@ import {
   sucesso,
   type Resultado,
 } from '@/lib/erros';
-import { enviarConvite, podeConvidar, vincularPorEmail } from './repository';
-import { esquemaConvite } from './schema';
+import {
+  alterarPapel,
+  enviarConvite,
+  podeConvidar,
+  removerVinculo,
+  vincularPorEmail,
+} from './repository';
+import { esquemaAlterarVinculo, esquemaConvite, esquemaRemoverVinculo } from './schema';
 
 export async function convidarUsuario(
   _anterior: Resultado,
@@ -48,4 +54,28 @@ export async function convidarUsuario(
   }
   revalidatePath('/admin/usuarios');
   return sucesso(`Convite enviado para ${email}.`);
+}
+
+/** Trocar papel e remover acesso: mesma checagem do convite, conferida no banco. */
+export async function mudarPapel(_: Resultado, formData: FormData): Promise<Resultado> {
+  const { supabase } = await exigirAdminPlataforma();
+  const dados = esquemaAlterarVinculo.safeParse({
+    vinculoId: formData.get('vinculoId'),
+    papel: formData.get('papel'),
+  });
+  if (!dados.success) return falha('Pedido inválido.');
+  const { error } = await alterarPapel(supabase, dados.data.vinculoId, dados.data.papel);
+  if (error) return falha(mensagemDoBanco(error));
+  revalidatePath('/admin', 'layout');
+  return sucesso('Papel alterado.');
+}
+
+export async function removerAcesso(_: Resultado, formData: FormData): Promise<Resultado> {
+  const { supabase } = await exigirAdminPlataforma();
+  const dados = esquemaRemoverVinculo.safeParse({ vinculoId: formData.get('vinculoId') });
+  if (!dados.success) return falha('Pedido inválido.');
+  const { error } = await removerVinculo(supabase, dados.data.vinculoId);
+  if (error) return falha(mensagemDoBanco(error));
+  revalidatePath('/admin', 'layout');
+  return sucesso('Acesso removido.');
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { mesDaUrl } from '@/app/_componentes/mes';
 import { exigirEmpresa } from '@/features/acesso';
+import { ListaAnotacoes, listarAnotacoes } from '@/features/anotacoes';
 import { listarParametros, parametrosVazios } from '@/features/cadastros';
 import {
   Fechamento,
@@ -23,11 +24,13 @@ interface Props {
 export default async function Resumo({ searchParams }: Props) {
   const { supabase, empresa, papel } = await exigirEmpresa();
   const mes = mesDaUrl((await searchParams).mes);
-  const [historico, parametros, fechados] = await Promise.all([
+  const [historico, parametros, fechados, anotacoes] = await Promise.all([
     carregarHistorico(supabase, empresa.id, mes),
     listarParametros(supabase, empresa.id),
     listarMesesFechados(supabase, empresa.id),
+    listarAnotacoes(supabase, empresa.id),
   ]);
+  const recados = anotacoes.filter((a) => a.visivelParaEmpresa).slice(0, 5);
   const doMes = parametros[chaveDoMes(mes)] ?? parametrosVazios();
   const { caixa, livro, gerencial, crediario } = resumoDoMes(historico, mes, doMes);
   const fechado = fechados.has(chaveDoMes(mes));
@@ -79,6 +82,12 @@ export default async function Resumo({ searchParams }: Props) {
       </div>
       {!livro && (
         <p className="aviso aviso-alerta">Este mês é anterior ao mês de início dos saldos.</p>
+      )}
+      {recados.length > 0 && (
+        <section className="pilha">
+          <h2>Recados da consultoria</h2>
+          <ListaAnotacoes anotacoes={recados} mostrarVisibilidade={false} />
+        </section>
       )}
     </div>
   );

@@ -3,17 +3,16 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // Nos testes, 'server-only' vira um módulo vazio.
+      'server-only': fileURLToPath(new URL('./tests/apoio/vazio.ts', import.meta.url)),
+    },
   },
   test: {
     projects: [
       {
         extends: true,
-        resolve: {
-          alias: {
-            'server-only': fileURLToPath(new URL('./tests/apoio/vazio.ts', import.meta.url)),
-          },
-        },
         test: {
           name: 'unit',
           environment: 'node',

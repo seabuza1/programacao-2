@@ -3,6 +3,7 @@ export { IndicadoresDoMes, ParticipacaoPorForma } from './components/ResumoCaixa
 export { listarEntradas, listarIndicadores } from './repository';
 export {
   faturamento,
+  previsaoDeFechamento,
   resumirCaixaDiario,
   type DiaDoCaixa,
   type Entrada,

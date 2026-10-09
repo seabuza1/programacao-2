@@ -83,5 +83,5 @@ export function formatarReais(valor: Centavos, { simbolo = true } = {}): string 
   const inteiro = formatoMilhar.format(absoluto / 100n);
   const decimal = String(absoluto % 100n).padStart(2, '0');
   const sinal = valor < 0 ? '-' : '';
-  return `${sinal}${simbolo ? 'R$ ' : ''}${inteiro},${decimal}`;
+  return `${sinal}${simbolo ? 'R$\u00a0' : ''}${inteiro},${decimal}`;
 }

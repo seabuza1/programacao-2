@@ -119,7 +119,7 @@ describe('parseReais', () => {
     ['1.234,56', 123_456],
     ['1234,56', 123_456],
     ['R$ 8.750,00', 875_000],
-    ['R$ 1.588,27', 158_827],
+    ['R$\u00a01.588,27', 158_827],
     ['  740,78 ', 74_078],
     ['0,5', 50],
     ['10', 1_000],
@@ -152,11 +152,11 @@ describe('parseReais', () => {
 
 describe('formatarReais', () => {
   it('formata em pt-BR', () => {
-    expect(formatarReais(c(123_456))).toBe('R$ 1.234,56');
-    expect(formatarReais(c(5))).toBe('R$ 0,05');
-    expect(formatarReais(c(0))).toBe('R$ 0,00');
-    expect(formatarReais(c(22_750_000))).toBe('R$ 227.500,00');
-    expect(formatarReais(c(-480_000))).toBe('-R$ 4.800,00');
+    expect(formatarReais(c(123_456))).toBe('R$\u00a01.234,56');
+    expect(formatarReais(c(5))).toBe('R$\u00a00,05');
+    expect(formatarReais(c(0))).toBe('R$\u00a00,00');
+    expect(formatarReais(c(22_750_000))).toBe('R$\u00a0227.500,00');
+    expect(formatarReais(c(-480_000))).toBe('-R$\u00a04.800,00');
   });
 
   it('formata sem símbolo', () => {
