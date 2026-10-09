@@ -156,11 +156,20 @@ export type Database = {
       criar_empresa: { Args: { p_nome: string }; Returns: string };
       eh_admin_plataforma: { Args: Record<PropertyKey, never>; Returns: boolean };
       mfa_ok: { Args: Record<PropertyKey, never>; Returns: boolean };
+      pode_convidar: { Args: { p_empresa_id: string }; Returns: boolean };
       precisa_mfa: { Args: Record<PropertyKey, never>; Returns: boolean };
       tem_acesso: { Args: { p_empresa_id: string }; Returns: boolean };
       tem_papel: {
         Args: { p_empresa_id: string; p_papeis: Database['public']['Enums']['papel'][] };
         Returns: boolean;
+      };
+      vincular_por_email: {
+        Args: {
+          p_email: string;
+          p_empresa_id: string;
+          p_papel: Database['public']['Enums']['papel'];
+        };
+        Returns: string;
       };
     };
     Enums: {
