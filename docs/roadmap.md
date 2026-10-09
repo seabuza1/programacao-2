@@ -27,11 +27,11 @@ Telas da empresa: Resumo do mês (faturamento, previsão contra a meta, saldos, 
 **Saída:** todos os casos da seção 7 do domínio passam e eu consigo lançar um mês inteiro sem ajuda.
 
 ## Fase 3 — Painel da administradora
-- [ ] 3.1 Lista de empresas: saldo de dinheiro e banco, faturamento do mês, lucro do mês, previsão contra a meta, data do último lançamento. Uma consulta agregada, respeitando os vínculos.
-- [ ] 3.2 Alertas da seção 6 do domínio, como funções puras testadas. Limiares em configuração (padrão: 3 dias sem lançar).
-- [ ] 3.3 Anotações por empresa: texto, autor, data, `visivel_para_empresa`. Só `admin` escreve. Histórico sem edição destrutiva.
-- [ ] 3.4 Cadastro de empresa e gestão de usuários e vínculos.
-- [ ] 3.5 Exportação dos relatórios em Excel e PDF, gerada no servidor, com a permissão conferida.
+- [x] 3.1 Lista de empresas: saldo de dinheiro e banco, faturamento do mês, lucro do mês, previsão contra a meta, data do último lançamento. Uma consulta agregada, respeitando os vínculos.
+- [x] 3.2 Alertas da seção 6 do domínio, como funções puras testadas. Limiares em configuração (padrão: 3 dias sem lançar).
+- [x] 3.3 Anotações por empresa: texto, autor, data, `visivel_para_empresa`. Só `admin` escreve. Histórico sem edição destrutiva.
+- [x] 3.4 Cadastro de empresa e gestão de usuários e vínculos.
+- [x] 3.5 Exportação dos relatórios em Excel e PDF, gerada no servidor, com a permissão conferida.
 
 **Saída:** a administradora usa o painel numa reunião real com dados fictícios.
 
