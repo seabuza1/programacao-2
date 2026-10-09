@@ -4,6 +4,7 @@
  */
 import { execFileSync } from 'node:child_process';
 import { describe, expect, inject, it } from 'vitest';
+import { TABELAS_DA_EMPRESA } from '@/features/lgpd/service';
 
 function consultar(sql: string): string[] {
   const saida = execFileSync('psql', [inject('supabase').dbUrl, '-At', '-F', '|', '-c', sql], {
@@ -73,6 +74,16 @@ describe('catálogo do banco', () => {
           )
       `),
     ).toEqual([]);
+  });
+
+  it('toda tabela com empresa_id entra na exportação e na exclusão (LGPD)', () => {
+    const comEmpresa = consultar(`
+      select c.table_name from information_schema.columns c
+      join information_schema.tables t on t.table_schema = c.table_schema and t.table_name = c.table_name
+      where c.table_schema = 'public' and c.column_name = 'empresa_id' and t.table_type = 'BASE TABLE'
+      order by c.table_name
+    `);
+    expect(comEmpresa).toEqual([...TABELAS_DA_EMPRESA].sort());
   });
 
   it('nenhuma função monta SQL dinâmico com dado de entrada', () => {

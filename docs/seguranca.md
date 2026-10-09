@@ -1,5 +1,7 @@
 # Segurança
 
+Resultado da última auditoria: `docs/auditoria-seguranca.md`.
+
 Checklist para toda mudança. Se um item não se aplica, siga em frente; se se aplica e não está feito, a tarefa não está pronta.
 
 ## Nova tabela
@@ -33,6 +35,12 @@ Checklist para toda mudança. Se um item não se aplica, siga em frente; se se a
 - [ ] `admin_plataforma` não dá acesso a dados. Acesso só por vínculo.
 - [ ] Cadastro aberto desligado (`enable_signup = false`). Só convite.
 - [ ] Redirecionamento só para rotas internas conhecidas (`rotaDeRetornoSegura`).
+
+## Limites, erros e dados pessoais
+
+- [ ] Ação nova que pode ser abusada (envio de e-mail, exportação, tentativa de senha) passa por `dentroDoLimite`.
+- [ ] Erro novo não carrega valor, e-mail ou id na mensagem; o monitor limpa, mas a mensagem já deve nascer limpa.
+- [ ] Tabela nova com dado da empresa entra em `TABELAS_DA_EMPRESA` (`src/features/lgpd/service.ts`), para a exportação e a exclusão.
 
 ## Antes de publicar
 

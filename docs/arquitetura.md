@@ -65,7 +65,15 @@ Cada página chama `exigir…()` de novo: no App Router o layout não roda a cad
 - `src/proxy.ts` renova a sessão a cada requisição e barra cedo quem não está logado.
 - Empresa ativa: cookie `empresa_ativa`, conferido com `tem_acesso` a cada requisição. Com um único vínculo, ele vale sem escolher.
 
+## Segurança em camadas
+
+- `src/proxy.ts`: força HTTPS, gera o nonce do CSP, aplica os cabeçalhos de segurança e renova a sessão.
+- `src/lib/limite.ts`: limite de tentativas (login, segundo fator, redefinição de senha, convite, exportação), guardado no banco.
+- `src/lib/monitor.ts` e `src/instrumentation.ts`: monitor de erros com eventos sem dado financeiro ou pessoal.
+- `src/features/lgpd`: exportação completa e exclusão de empresa.
+- Detalhes e evidências: `docs/auditoria-seguranca.md`. Produção: `docs/producao.md`. Incidente: `docs/incidente.md`.
+
 ## Testes
 
 - `pnpm test`: unitários (`src/**/*.test.ts`), sem banco.
-- `pnpm test:db`: contra o Supabase local. Cada arquivo monta um cenário novo com empresas A e B e um usuário por papel (`tests/apoio/cenario.ts`), inclusive com segundo fator (TOTP gerado no teste).
+- `pnpm test:db`: contra o Supabase local (isolamento, regras no banco e guardas do catálogo). Cada arquivo monta um cenário novo com empresas A e B e um usuário por papel (`tests/apoio/cenario.ts`), inclusive com segundo fator (TOTP gerado no teste).
