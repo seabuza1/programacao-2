@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { exigirAdminPlataforma } from '@/features/acesso';
 import { ambiente } from '@/lib/ambiente';
+import { dentroDoLimite, MENSAGEM_LIMITE } from '@/lib/limite';
 import {
   ecoar,
   falha,
@@ -24,7 +25,7 @@ export async function convidarUsuario(
   _anterior: Resultado,
   formData: FormData,
 ): Promise<Resultado> {
-  const { supabase } = await exigirAdminPlataforma();
+  const { supabase, usuario } = await exigirAdminPlataforma();
   const dados = esquemaConvite.safeParse({
     email: formData.get('email'),
     empresaId: formData.get('empresaId'),
@@ -35,6 +36,9 @@ export async function convidarUsuario(
     return falhaDeValidacao(dados.error, valores);
   }
   const { email, empresaId, papel } = dados.data;
+  if (!(await dentroDoLimite('convitePorUsuario', usuario.id))) {
+    return falha(MENSAGEM_LIMITE, undefined, valores);
+  }
   if (!(await podeConvidar(supabase, empresaId))) {
     return falha('Você não tem permissão para convidar para esta empresa.', undefined, valores);
   }

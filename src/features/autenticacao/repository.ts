@@ -12,8 +12,13 @@ export async function entrarComSenha(
   supabase: ClienteSupabase,
   email: string,
   senha: string,
+  captchaToken: string | undefined,
 ): Promise<string | null> {
-  const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password: senha,
+    ...(captchaToken ? { options: { captchaToken } } : {}),
+  });
   return error ? (error.code ?? 'desconhecido') : null;
 }
 
@@ -58,8 +63,12 @@ export async function pedirRedefinicao(
   supabase: ClienteSupabase,
   email: string,
   redirectTo: string,
+  captchaToken: string | undefined,
 ): Promise<string | null> {
-  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo,
+    ...(captchaToken ? { captchaToken } : {}),
+  });
   return error ? (error.code ?? 'desconhecido') : null;
 }
 

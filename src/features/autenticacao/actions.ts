@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { limparEmpresaAtiva, obterUsuarioParcial, rotaDeRetornoSegura } from '@/features/acesso';
 import { ambiente } from '@/lib/ambiente';
 import { ecoar, falha, falhaDeValidacao, sucesso, type Resultado } from '@/lib/erros';
+import { dentroDoLimite, ipDoCliente, MENSAGEM_LIMITE } from '@/lib/limite';
 import { criarClienteServidor } from '@/lib/supabase/server';
 import {
   cadastrarFator,
@@ -25,7 +26,21 @@ import {
 } from './schema';
 import { mensagemDeErroAuth } from './service';
 
+/** Token do Cloudflare Turnstile, quando o desafio está ligado. */
+function tokenDoDesafio(formData: FormData): string | undefined {
+  const token = formData.get('cf-turnstile-response');
+  return typeof token === 'string' && token.length > 0 ? token.slice(0, 2048) : undefined;
+}
+
+/** Campo-armadilha invisível: gente não preenche, robô sim. */
+function ehRobo(formData: FormData): boolean {
+  return Boolean(formData.get('site'));
+}
+
 export async function entrar(_anterior: Resultado, formData: FormData): Promise<Resultado> {
+  if (ehRobo(formData)) {
+    return falha(mensagemDeErroAuth('invalid_credentials'));
+  }
   const dados = esquemaEntrar.safeParse({
     email: formData.get('email'),
     senha: formData.get('senha'),
@@ -34,8 +49,20 @@ export async function entrar(_anterior: Resultado, formData: FormData): Promise<
   if (!dados.success) {
     return falhaDeValidacao(dados.error, valores);
   }
+  const [porIp, porEmail] = await Promise.all([
+    dentroDoLimite('loginPorIp', await ipDoCliente()),
+    dentroDoLimite('loginPorEmail', dados.data.email),
+  ]);
+  if (!porIp || !porEmail) {
+    return falha(MENSAGEM_LIMITE, undefined, valores);
+  }
   const supabase = await criarClienteServidor();
-  const erro = await entrarComSenha(supabase, dados.data.email, dados.data.senha);
+  const erro = await entrarComSenha(
+    supabase,
+    dados.data.email,
+    dados.data.senha,
+    tokenDoDesafio(formData),
+  );
   if (erro) {
     return falha(mensagemDeErroAuth(erro), undefined, valores);
   }
@@ -74,6 +101,9 @@ export async function confirmarCodigo(
   if (!dados.success) {
     return falhaDeValidacao(dados.error);
   }
+  if (!(await dentroDoLimite('codigoPorUsuario', contexto.usuario.id))) {
+    return falha(MENSAGEM_LIMITE);
+  }
   const erro = await verificarCodigo(contexto.supabase, dados.data.fatorId, dados.data.codigo);
   if (erro) {
     return falha(mensagemDeErroAuth(erro));
@@ -89,15 +119,26 @@ export async function sair(): Promise<void> {
 }
 
 export async function esqueciSenha(_anterior: Resultado, formData: FormData): Promise<Resultado> {
+  if (ehRobo(formData)) {
+    return sucesso('Se o e-mail estiver cadastrado, enviamos um link para redefinir a senha.');
+  }
   const dados = esquemaEsqueciSenha.safeParse({ email: formData.get('email') });
   if (!dados.success) {
     return falhaDeValidacao(dados.error, ecoar(formData, ['email']));
+  }
+  const [porIp, porEmail] = await Promise.all([
+    dentroDoLimite('senhaPorIp', await ipDoCliente()),
+    dentroDoLimite('senhaPorEmail', dados.data.email),
+  ]);
+  if (!porIp || !porEmail) {
+    return falha(MENSAGEM_LIMITE, undefined, ecoar(formData, ['email']));
   }
   const supabase = await criarClienteServidor();
   const erro = await pedirRedefinicao(
     supabase,
     dados.data.email,
     `${ambiente().siteUrl}/auth/confirmar`,
+    tokenDoDesafio(formData),
   );
   if (erro?.startsWith('over_')) {
     return falha(mensagemDeErroAuth(erro));

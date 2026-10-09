@@ -311,6 +311,25 @@ export type Database = {
           },
         ];
       };
+      limites_de_taxa: {
+        Row: {
+          chave: string;
+          contagem: number;
+          janela_inicio: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          chave: string;
+          contagem: number;
+          janela_inicio: string;
+        };
+        Update: {
+          chave?: string;
+          contagem?: number;
+          janela_inicio?: string;
+        };
+        Relationships: [];
+      };
       meses_fechados: {
         Row: {
           ano: number;
@@ -801,6 +820,10 @@ export type Database = {
         Returns: undefined;
       };
       compartilha_empresa: { Args: { p_usuario_id: string }; Returns: boolean };
+      consumir_limite: {
+        Args: { p_chave: string; p_janela_segundos: number; p_maximo: number };
+        Returns: boolean;
+      };
       criar_empresa: { Args: { p_nome: string }; Returns: string };
       eh_admin_plataforma: { Args: Record<PropertyKey, never>; Returns: boolean };
       mes_fechado: {

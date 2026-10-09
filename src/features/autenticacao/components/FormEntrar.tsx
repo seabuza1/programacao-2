@@ -3,15 +3,16 @@
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { INICIAL, estadoDoFormulario } from '@/lib/erros';
-import { Aviso, BotaoEnviar, Campo } from '@/lib/ui';
+import { Aviso, BotaoEnviar, Campo, CampoArmadilha, DesafioTurnstile } from '@/lib/ui';
 import { entrar } from '../actions';
 
-export function FormEntrar() {
+export function FormEntrar({ chaveTurnstile }: { chaveTurnstile: string | null }) {
   const [resultado, acao] = useActionState(entrar, INICIAL);
   const { campos, valores } = estadoDoFormulario(resultado);
   return (
     <form action={acao} className="formulario" noValidate>
       <Aviso resultado={resultado} />
+      <CampoArmadilha />
       <Campo
         rotulo="E-mail"
         nome="email"
@@ -29,6 +30,7 @@ export function FormEntrar() {
         required
         erro={campos.senha}
       />
+      {chaveTurnstile && <DesafioTurnstile chave={chaveTurnstile} versao={resultado} />}
       <BotaoEnviar>Entrar</BotaoEnviar>
       <Link href="/esqueci-senha">Esqueci minha senha</Link>
     </form>

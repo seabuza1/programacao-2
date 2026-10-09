@@ -14,6 +14,7 @@ import { chaveDoMes, mesAtual, parseMes } from '@/lib/datas';
 import { gerarPdf } from '@/lib/exportar/pdf';
 import { nomeDeArquivo, type Tabela } from '@/lib/exportar/tabela';
 import { gerarXlsx } from '@/lib/exportar/xlsx';
+import { dentroDoLimite, MENSAGEM_LIMITE } from '@/lib/limite';
 
 const esquema = z.object({
   relatorio: z.enum(['gerencial', 'anual']),
@@ -28,7 +29,10 @@ const TIPOS = {
 
 /** Exportação gerada no servidor, com a mesma checagem das telas (sessão, empresa ativa, vínculo). */
 export async function GET(request: NextRequest) {
-  const { supabase, empresa } = await exigirEmpresa();
+  const { supabase, empresa, usuario } = await exigirEmpresa();
+  if (!(await dentroDoLimite('exportacaoPorUsuario', usuario.id))) {
+    return new Response(MENSAGEM_LIMITE, { status: 429, headers: { 'Retry-After': '600' } });
+  }
   const dados = esquema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
   if (!dados.success) {
     return new Response('Pedido inválido.', { status: 400 });

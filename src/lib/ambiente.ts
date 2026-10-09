@@ -40,3 +40,8 @@ export function chaveSecretaSupabase(): string {
   }
   return chave;
 }
+
+/** Chave pública do Cloudflare Turnstile. Sem ela, o login não mostra o desafio (ambiente local). */
+export function chaveTurnstile(): string | null {
+  return process.env.TURNSTILE_SITE_KEY || null;
+}
