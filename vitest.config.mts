@@ -6,7 +6,24 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   test: {
-    environment: 'node',
-    include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    projects: [
+      {
+        extends: true,
+        test: { name: 'unit', environment: 'node', include: ['src/**/*.test.ts'] },
+      },
+      {
+        // Contra o Supabase local: `pnpm supabase start` antes.
+        extends: true,
+        test: {
+          name: 'db',
+          environment: 'node',
+          include: ['tests/**/*.test.ts'],
+          globalSetup: ['tests/apoio/global-setup.ts'],
+          fileParallelism: false,
+          testTimeout: 30_000,
+          hookTimeout: 120_000,
+        },
+      },
+    ],
   },
 });
