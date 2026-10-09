@@ -50,6 +50,14 @@ export function aplicarPercentual(valor: Centavos, percentual: Percentual): Cent
   return deBigInt(dividirArredondado(BigInt(valor) * BigInt(percentual), 10_000n));
 }
 
+/** valor ÷ percentual, arredondado ao centavo. Ex.: 5,00 ÷ 66,5% = 7,52. Zero devolve null. */
+export function dividirPorPercentual(valor: Centavos, percentual: Percentual): Centavos | null {
+  if (percentual === 0) {
+    return null;
+  }
+  return deBigInt(dividirArredondado(BigInt(valor) * 10_000n, BigInt(percentual)));
+}
+
 const formatoReais = /^(-)?(?:R\$)?(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d{1,2}))?$/;
 
 /**

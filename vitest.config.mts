@@ -9,7 +9,16 @@ export default defineConfig({
     projects: [
       {
         extends: true,
-        test: { name: 'unit', environment: 'node', include: ['src/**/*.test.ts'] },
+        resolve: {
+          alias: {
+            'server-only': fileURLToPath(new URL('./tests/apoio/vazio.ts', import.meta.url)),
+          },
+        },
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['src/**/*.test.ts', 'tests/dominio/**/*.test.ts'],
+        },
       },
       {
         // Contra o Supabase local: `pnpm supabase start` antes.
@@ -17,7 +26,7 @@ export default defineConfig({
         test: {
           name: 'db',
           environment: 'node',
-          include: ['tests/**/*.test.ts'],
+          include: ['tests/isolamento/**/*.test.ts', 'tests/regras/**/*.test.ts'],
           globalSetup: ['tests/apoio/global-setup.ts'],
           fileParallelism: false,
           testTimeout: 30_000,

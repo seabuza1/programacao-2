@@ -3,6 +3,7 @@ import {
   aplicarPercentual,
   centavos,
   dividir,
+  dividirPorPercentual,
   formatarReais,
   multiplicar,
   parseReais,
@@ -97,6 +98,19 @@ describe('aplicarPercentual', () => {
     expect(aplicarPercentual(c(9_000_000_000_000_000), percentual(10_000))).toBe(
       9_000_000_000_000_000,
     );
+  });
+});
+
+describe('dividirPorPercentual', () => {
+  it('calcula os preços sugeridos do caso H', () => {
+    expect(dividirPorPercentual(c(500), percentual(6_650))).toBe(752);
+    expect(dividirPorPercentual(c(2_050), percentual(6_650))).toBe(3_083);
+    expect(dividirPorPercentual(c(1_850), percentual(9_000))).toBe(2_056);
+    expect(dividirPorPercentual(c(2_050), percentual(9_000))).toBe(2_278);
+  });
+
+  it('devolve null para percentual zero', () => {
+    expect(dividirPorPercentual(c(100), percentual(0))).toBeNull();
   });
 });
 
