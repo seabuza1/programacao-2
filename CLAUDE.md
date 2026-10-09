@@ -10,8 +10,8 @@ Livro caixa multiempresa com painel da administradora. Dados financeiros sensív
 
 ## Comandos
 (atualize com os scripts reais)
-- `pnpm dev` · `pnpm lint` · `pnpm typecheck` · `pnpm test`
-- `supabase start` · `supabase db reset`
+- `pnpm dev` · `pnpm build` · `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm format`
+- `supabase start` · `supabase db reset` (a partir da etapa 1.2)
 
 ## Estrutura
 - `src/app/`: rotas e telas. Sem regra de negócio.
