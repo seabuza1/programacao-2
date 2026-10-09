@@ -1,9 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
+import { registrarErroDoNavegador } from './_componentes/registrarErro';
 import './globals.css';
 
 /** Erro no layout raiz. Sem detalhes técnicos na tela. */
-export default function ErroGlobal() {
+export default function ErroGlobal({ error }: { error: Error & { digest?: string } }) {
+  useEffect(() => {
+    void registrarErroDoNavegador({
+      mensagem: error.message,
+      digest: error.digest,
+      rota: window.location.pathname,
+    });
+  }, [error]);
   return (
     <html lang="pt-BR">
       <body>

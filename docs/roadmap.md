@@ -40,7 +40,7 @@ Telas da empresa: Resumo do mês (faturamento, previsão contra a meta, saldos, 
 - [x] 4.2 Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options, X-Content-Type-Options), HTTPS forçado, cookies com HttpOnly, Secure e SameSite.
 - [x] 4.3 Auditoria de segurança de 20 itens (abaixo). Para cada um: OK, FALHA ou NÃO SE APLICA, com arquivo e linha. Liste as falhas por gravidade, proponha a correção e espere meu OK.
 - [x] 4.4 LGPD: exportação completa dos dados de uma empresa e exclusão com confirmação. Páginas de termos de uso e política de privacidade com texto marcado "RASCUNHO, revisar com advogado".
-- [ ] 4.5 Monitor de erros sem dados financeiros nem pessoais nos eventos.
+- [x] 4.5 Monitor de erros sem dados financeiros nem pessoais nos eventos.
 - [ ] 4.6 `docs/producao.md`: passo a passo para eu criar o projeto de produção, aplicar migrations, criar a primeira admin, ligar backups e recuperação ponto a ponto, e testar uma restauração. `docs/incidente.md`: plano de uma página.
 
 Auditoria 4.3: (1) segredos fora do código e do front-end; (2) histórico do git sem segredos; (3) front-end só com a chave pública; (4) RLS em todas as tabelas, com policy por operação; (5) dados criptografados em trânsito e em repouso; (6) permissão conferida no servidor e no banco; (7) cada usuário acessa só o que é dele, testado trocando IDs; (8) mass assignment bloqueado; (9) cookies protegidos; (10) senha nunca guardada por nós; (11) rate limit; (12) proteção contra bot; (13) consultas parametrizadas; (14) entrada validada no servidor; (15) erros e logs sem vazamento; (16) uploads restritos; (17) respostas só com os campos necessários; (18) cabeçalhos de segurança; (19) HTTPS forçado; (20) dependências sem vulnerabilidade conhecida.

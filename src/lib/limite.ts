@@ -12,6 +12,7 @@ export const LIMITES = {
   senhaPorIp: { maximo: 10, janela: 60 * 60 },
   convitePorUsuario: { maximo: 30, janela: 60 * 60 },
   exportacaoPorUsuario: { maximo: 30, janela: 10 * 60 },
+  errosDoNavegador: { maximo: 20, janela: 10 * 60 },
 } as const;
 
 export type Limite = keyof typeof LIMITES;
