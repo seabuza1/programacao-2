@@ -197,6 +197,12 @@ describe('mês fechado', () => {
       expect(tentativa.error?.message).toContain('Mês fechado');
     }
 
+    // Consulta direta: só responde sobre empresa com vínculo.
+    const consulta = { p_empresa_id: c.empresaA, p_ano: MES.ano, p_mes: MES.mes };
+    expect((await operadorA.rpc('mes_fechado', consulta)).data).toBe(true);
+    const outraEmpresa = await c.donoB.entrar();
+    expect((await outraEmpresa.rpc('mes_fechado', consulta)).data).toBe(false);
+
     // Mês vizinho continua aberto.
     const vizinho = await operadorA
       .from('entradas_diarias')
