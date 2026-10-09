@@ -14,10 +14,27 @@ export interface Membro extends Usuario {
 }
 
 async function inserirEmpresa(nome: string): Promise<string> {
+  const servico = clienteServico();
+  const { data, error } = await servico.from('empresas').insert({ nome }).select('id').single();
+  if (error) throw error;
+  const { error: erroSeed } = await servico.rpc('semear_cadastros_padrao', {
+    p_empresa_id: data.id,
+  });
+  if (erroSeed) throw erroSeed;
+  return data.id;
+}
+
+/** id de uma forma ou conta padrão da empresa, pelo nome. */
+export async function idPorNome(
+  tabela: 'formas_recebimento' | 'plano_contas',
+  empresaId: string,
+  nome: string,
+): Promise<string> {
   const { data, error } = await clienteServico()
-    .from('empresas')
-    .insert({ nome })
+    .from(tabela)
     .select('id')
+    .eq('empresa_id', empresaId)
+    .eq('nome', nome)
     .single();
   if (error) throw error;
   return data.id;

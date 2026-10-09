@@ -73,6 +73,608 @@ export type Database = {
         };
         Relationships: [];
       };
+      entradas_diarias: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          data: string;
+          deleted_at: string | null;
+          empresa_id: string;
+          forma_id: string;
+          id: string;
+          updated_at: string;
+          valor: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          data: string;
+          deleted_at?: string | null;
+          empresa_id: string;
+          forma_id: string;
+          id?: string;
+          updated_at?: string;
+          valor: number;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          data?: string;
+          deleted_at?: string | null;
+          empresa_id?: string;
+          forma_id?: string;
+          id?: string;
+          updated_at?: string;
+          valor?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'entradas_diarias_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'entradas_diarias_forma_id_empresa_id_fkey';
+            columns: ['forma_id', 'empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'formas_recebimento';
+            referencedColumns: ['id', 'empresa_id'];
+          },
+        ];
+      };
+      faturamento_ano_anterior: {
+        Row: {
+          ano: number;
+          created_at: string;
+          created_by: string | null;
+          empresa_id: string;
+          id: string;
+          mes: number;
+          updated_at: string;
+          valor: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id: string;
+          id?: string;
+          mes: number;
+          updated_at?: string;
+          valor?: number;
+        };
+        Update: {
+          ano?: number;
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id?: string;
+          id?: string;
+          mes?: number;
+          updated_at?: string;
+          valor?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'faturamento_ano_anterior_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      formas_recebimento: {
+        Row: {
+          ativa: boolean;
+          conta_faturamento: boolean;
+          created_at: string;
+          created_by: string | null;
+          destino: Database['public']['Enums']['destino_recebimento'];
+          eh_crediario: boolean;
+          empresa_id: string;
+          id: string;
+          nome: string;
+          ordem: number;
+          padrao: boolean;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ativa?: boolean;
+          conta_faturamento?: boolean;
+          created_at?: string;
+          created_by?: string | null;
+          destino: Database['public']['Enums']['destino_recebimento'];
+          eh_crediario?: boolean;
+          empresa_id: string;
+          id?: string;
+          nome: string;
+          ordem?: number;
+          padrao?: boolean;
+          updated_at?: string;
+        };
+        Update: {
+          ativa?: boolean;
+          conta_faturamento?: boolean;
+          created_at?: string;
+          created_by?: string | null;
+          destino?: Database['public']['Enums']['destino_recebimento'];
+          eh_crediario?: boolean;
+          empresa_id?: string;
+          id?: string;
+          nome?: string;
+          ordem?: number;
+          padrao?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'formas_recebimento_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      indicadores_diarios: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          data: string;
+          deleted_at: string | null;
+          descontos: number;
+          empresa_id: string;
+          id: string;
+          qtd_produtos: number;
+          qtd_vendas: number;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          data: string;
+          deleted_at?: string | null;
+          descontos?: number;
+          empresa_id: string;
+          id?: string;
+          qtd_produtos?: number;
+          qtd_vendas?: number;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          data?: string;
+          deleted_at?: string | null;
+          descontos?: number;
+          empresa_id?: string;
+          id?: string;
+          qtd_produtos?: number;
+          qtd_vendas?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'indicadores_diarios_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      meses_fechados: {
+        Row: {
+          ano: number;
+          created_at: string;
+          created_by: string | null;
+          empresa_id: string;
+          id: string;
+          mes: number;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id: string;
+          id?: string;
+          mes: number;
+          updated_at?: string;
+        };
+        Update: {
+          ano?: number;
+          created_at?: string;
+          created_by?: string | null;
+          empresa_id?: string;
+          id?: string;
+          mes?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'meses_fechados_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      metas_anuais: {
+        Row: {
+          ano: number;
+          created_at: string;
+          created_by: string | null;
+          crescimento_desejado: number;
+          empresa_id: string;
+          id: string;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          created_at?: string;
+          created_by?: string | null;
+          crescimento_desejado?: number;
+          empresa_id: string;
+          id?: string;
+          updated_at?: string;
+        };
+        Update: {
+          ano?: number;
+          created_at?: string;
+          created_by?: string | null;
+          crescimento_desejado?: number;
+          empresa_id?: string;
+          id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'metas_anuais_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      movimentacoes: {
+        Row: {
+          caixa: Database['public']['Enums']['caixa'];
+          conta_id: string | null;
+          created_at: string;
+          created_by: string | null;
+          data: string;
+          deleted_at: string | null;
+          descricao: string;
+          empresa_id: string;
+          id: string;
+          origem: Database['public']['Enums']['origem_entrada'] | null;
+          tipo: Database['public']['Enums']['tipo_movimentacao'];
+          updated_at: string;
+          valor: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          caixa: Database['public']['Enums']['caixa'];
+          conta_id?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          data: string;
+          deleted_at?: string | null;
+          descricao?: string;
+          empresa_id: string;
+          id?: string;
+          origem?: Database['public']['Enums']['origem_entrada'] | null;
+          tipo: Database['public']['Enums']['tipo_movimentacao'];
+          updated_at?: string;
+          valor: number;
+        };
+        Update: {
+          caixa?: Database['public']['Enums']['caixa'];
+          conta_id?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          data?: string;
+          deleted_at?: string | null;
+          descricao?: string;
+          empresa_id?: string;
+          id?: string;
+          origem?: Database['public']['Enums']['origem_entrada'] | null;
+          tipo?: Database['public']['Enums']['tipo_movimentacao'];
+          updated_at?: string;
+          valor?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'movimentacoes_conta_id_empresa_id_fkey';
+            columns: ['conta_id', 'empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'plano_contas';
+            referencedColumns: ['id', 'empresa_id'];
+          },
+          {
+            foreignKeyName: 'movimentacoes_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      parametros_markup: {
+        Row: {
+          ano: number;
+          comissao: number;
+          created_at: string;
+          created_by: string | null;
+          despesa_fixa: number;
+          empresa_id: string;
+          id: string;
+          imposto: number;
+          investimentos: number;
+          margem_lucro: number;
+          mes: number;
+          taxa_cartao: number;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          comissao?: number;
+          created_at?: string;
+          created_by?: string | null;
+          despesa_fixa?: number;
+          empresa_id: string;
+          id?: string;
+          imposto?: number;
+          investimentos?: number;
+          margem_lucro?: number;
+          mes: number;
+          taxa_cartao?: number;
+          updated_at?: string;
+        };
+        Update: {
+          ano?: number;
+          comissao?: number;
+          created_at?: string;
+          created_by?: string | null;
+          despesa_fixa?: number;
+          empresa_id?: string;
+          id?: string;
+          imposto?: number;
+          investimentos?: number;
+          margem_lucro?: number;
+          mes?: number;
+          taxa_cartao?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'parametros_markup_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      parametros_mes: {
+        Row: {
+          ano: number;
+          created_at: string;
+          created_by: string | null;
+          dias_previstos: number;
+          empresa_id: string;
+          id: string;
+          mes: number;
+          meta_faturamento: number;
+          taxa_credito: number;
+          taxa_debito: number;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          created_at?: string;
+          created_by?: string | null;
+          dias_previstos?: number;
+          empresa_id: string;
+          id?: string;
+          mes: number;
+          meta_faturamento?: number;
+          taxa_credito?: number;
+          taxa_debito?: number;
+          updated_at?: string;
+        };
+        Update: {
+          ano?: number;
+          created_at?: string;
+          created_by?: string | null;
+          dias_previstos?: number;
+          empresa_id?: string;
+          id?: string;
+          mes?: number;
+          meta_faturamento?: number;
+          taxa_credito?: number;
+          taxa_debito?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'parametros_mes_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      plano_contas: {
+        Row: {
+          ativa: boolean;
+          created_at: string;
+          created_by: string | null;
+          eh_despesa_financeira: boolean;
+          eh_pro_labore: boolean;
+          empresa_id: string;
+          grupo: Database['public']['Enums']['grupo_conta'];
+          id: string;
+          nome: string;
+          ordem: number;
+          padrao: boolean;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ativa?: boolean;
+          created_at?: string;
+          created_by?: string | null;
+          eh_despesa_financeira?: boolean;
+          eh_pro_labore?: boolean;
+          empresa_id: string;
+          grupo: Database['public']['Enums']['grupo_conta'];
+          id?: string;
+          nome: string;
+          ordem?: number;
+          padrao?: boolean;
+          updated_at?: string;
+        };
+        Update: {
+          ativa?: boolean;
+          created_at?: string;
+          created_by?: string | null;
+          eh_despesa_financeira?: boolean;
+          eh_pro_labore?: boolean;
+          empresa_id?: string;
+          grupo?: Database['public']['Enums']['grupo_conta'];
+          id?: string;
+          nome?: string;
+          ordem?: number;
+          padrao?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'plano_contas_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      produtos_preco: {
+        Row: {
+          ano: number;
+          created_at: string;
+          created_by: string | null;
+          custo: number;
+          embalagem: number;
+          empresa_id: string;
+          frete: number;
+          id: string;
+          imposto_entrada: number;
+          mes: number;
+          nome: string;
+          preco_concorrente: number | null;
+          preco_trabalhado: number | null;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          ano: number;
+          created_at?: string;
+          created_by?: string | null;
+          custo?: number;
+          embalagem?: number;
+          empresa_id: string;
+          frete?: number;
+          id?: string;
+          imposto_entrada?: number;
+          mes: number;
+          nome: string;
+          preco_concorrente?: number | null;
+          preco_trabalhado?: number | null;
+          updated_at?: string;
+        };
+        Update: {
+          ano?: number;
+          created_at?: string;
+          created_by?: string | null;
+          custo?: number;
+          embalagem?: number;
+          empresa_id?: string;
+          frete?: number;
+          id?: string;
+          imposto_entrada?: number;
+          mes?: number;
+          nome?: string;
+          preco_concorrente?: number | null;
+          preco_trabalhado?: number | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'produtos_preco_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: false;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      saldos_iniciais: {
+        Row: {
+          created_at: string;
+          created_by: string | null;
+          data_inicio: string;
+          empresa_id: string;
+          id: string;
+          saldo_banco: number;
+          saldo_dinheiro: number;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          created_by?: string | null;
+          data_inicio: string;
+          empresa_id: string;
+          id?: string;
+          saldo_banco?: number;
+          saldo_dinheiro?: number;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string | null;
+          data_inicio?: string;
+          empresa_id?: string;
+          id?: string;
+          saldo_banco?: number;
+          saldo_dinheiro?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'saldos_iniciais_empresa_id_fkey';
+            columns: ['empresa_id'];
+            isOneToOne: true;
+            referencedRelation: 'empresas';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       usuarios: {
         Row: {
           admin_plataforma: boolean;
@@ -155,9 +757,14 @@ export type Database = {
       compartilha_empresa: { Args: { p_usuario_id: string }; Returns: boolean };
       criar_empresa: { Args: { p_nome: string }; Returns: string };
       eh_admin_plataforma: { Args: Record<PropertyKey, never>; Returns: boolean };
+      mes_fechado: {
+        Args: { p_ano: number; p_empresa_id: string; p_mes: number };
+        Returns: boolean;
+      };
       mfa_ok: { Args: Record<PropertyKey, never>; Returns: boolean };
       pode_convidar: { Args: { p_empresa_id: string }; Returns: boolean };
       precisa_mfa: { Args: Record<PropertyKey, never>; Returns: boolean };
+      semear_cadastros_padrao: { Args: { p_empresa_id: string }; Returns: undefined };
       tem_acesso: { Args: { p_empresa_id: string }; Returns: boolean };
       tem_papel: {
         Args: { p_empresa_id: string; p_papeis: Database['public']['Enums']['papel'][] };
@@ -173,7 +780,12 @@ export type Database = {
       };
     };
     Enums: {
+      caixa: 'dinheiro' | 'banco';
+      destino_recebimento: 'dinheiro' | 'banco' | 'cartao_debito' | 'cartao_credito' | 'nenhum';
+      grupo_conta: 'fixo' | 'variavel' | 'investimento';
+      origem_entrada: 'recebimento_crediario' | 'outro';
       papel: 'admin' | 'dono' | 'operador' | 'leitor';
+      tipo_movimentacao: 'saida' | 'entrada' | 'transferencia';
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -285,7 +897,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      caixa: ['dinheiro', 'banco'],
+      destino_recebimento: ['dinheiro', 'banco', 'cartao_debito', 'cartao_credito', 'nenhum'],
+      grupo_conta: ['fixo', 'variavel', 'investimento'],
+      origem_entrada: ['recebimento_crediario', 'outro'],
       papel: ['admin', 'dono', 'operador', 'leitor'],
+      tipo_movimentacao: ['saida', 'entrada', 'transferencia'],
     },
   },
 } as const;
