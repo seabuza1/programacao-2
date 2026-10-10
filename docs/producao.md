@@ -41,7 +41,7 @@ pnpm supabase migration list   # todas devem aparecer em "Remote"
 - [ ] Mudança de schema daqui em diante: só por migration, revisada em PR, CI verde, e você roda `pnpm supabase db push` depois do merge. Nunca pelo painel.
 
 ## 4. Chaves
-- [ ] **Settings → API Keys**: copie a *publishable key* e crie uma *secret key* só para a Vercel (nome: `vercel-producao`).
+- [ ] **Settings → API Keys**: copie a *publishable key* e crie uma *secret key* só para a Vercel (nome: `vercel_producao`; o Supabase só aceita minúsculas, números e `_`).
 - [ ] A chave secreta equivale à `service_role`: só vai para a Vercel como variável sensível, nunca em `NEXT_PUBLIC_`, nunca no código.
 
 ## 5. Turnstile (Cloudflare)
