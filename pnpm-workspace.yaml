@@ -1,0 +1,7 @@
+# unrs-resolver (usado pelo ESLint) já vem com binário pronto; o script de instalação não é necessário.
+ignoredBuiltDependencies:
+  - unrs-resolver
+
+# supabase baixa o binário do CLI na instalação.
+onlyBuiltDependencies:
+  - supabase

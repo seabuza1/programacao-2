@@ -1,41 +1,44 @@
-# 💻 Exercícios em C++ — Universidade Federal do Mato Grosso (UFMT)
+# Gestão Fácil SaaS
 
-Repositório criado para armazenar e organizar os exercícios desenvolvidos na disciplina de Programação do curso de Ciência da Computação da Universidade Federal do Mato Grosso (UFMT).
+Livro caixa multiempresa com painel da administradora. Cada empresa lança o próprio caixa; a administradora acompanha todas num painel com indicadores, alertas e anotações.
 
-## 🎯 Objetivo
+- Regras do projeto: [`CLAUDE.md`](./CLAUDE.md)
+- Regras de negócio: [`docs/dominio.md`](./docs/dominio.md) · decisões assumidas: [`docs/decisoes/`](./docs/decisoes)
+- Etapas: [`docs/roadmap.md`](./docs/roadmap.md)
+- Arquitetura: [`docs/arquitetura.md`](./docs/arquitetura.md) · segurança: [`docs/seguranca.md`](./docs/seguranca.md), [`docs/auditoria-seguranca.md`](./docs/auditoria-seguranca.md)
+- Produção: [`docs/producao.md`](./docs/producao.md) · incidente: [`docs/incidente.md`](./docs/incidente.md)
 
-Este repositório tem como finalidade:
+## Rodar na sua máquina
 
-* Praticar e aprimorar os conhecimentos em lógica de programação e linguagem C++.
-* Servir como base de estudo para outros alunos e interessados.
-* Registrar o progresso durante a graduação em Ciência da Computação.
-
-## 🧩 Estrutura do Repositório
-
-Os exercícios estão organizados por aula:
-
-| Pasta | Conteúdo |
-|---|---|
-| [`Aula1/`](./Aula1) | Saída de texto com `cout`, leitura de variáveis com `cin` e operações aritméticas básicas (dobro, triplo, soma, diferença, multiplicação) |
-| [`Aula2/`](./Aula2) | Tipos primitivos e `sizeof`, conversão de temperatura com `static_cast`, `#define` vs `const`, leitura com `getline`, escopo de variáveis, namespaces aninhados e conversões com `stoi`/`boolalpha` |
-| [`Aula3/`](./Aula3) | Estruturas condicionais e laços: ano de Copa, sequência de Fibonacci, faixa etária, reajuste salarial e cálculo de fatorial |
-
-## ⚙️ Como compilar e executar
-
-Cada exercício é um programa independente. Para compilar qualquer um deles:
+Precisa de Node 22, pnpm 10 e Docker.
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -o programa caminho/do/arquivo.cpp
-./programa
+pnpm install
+pnpm supabase start          # sobe o Supabase local (Postgres, Auth, e-mail de teste)
+pnpm db:reset                # aplica as migrations e o seed com dados fictícios
+pnpm supabase status         # mostra a URL e as chaves locais
+cp .env.example .env.local   # preencha com os valores do status e SITE_URL=http://localhost:3000
+pnpm dev                     # http://localhost:3000
 ```
 
-Exemplo:
+Contas fictícias do seed (senha `Senha-ficticia-2026`):
+
+| E-mail | Papel |
+| --- | --- |
+| `admin@gestaofacil.test` | administradora da plataforma |
+| `operadora@gestaofacil.test` | operadora da Loja Exemplo |
+
+O segundo fator está desligado no piloto (`docs/decisoes/0008-segundo-fator-no-piloto.md`): todos entram com e-mail e senha.
+
+E-mails de convite e de redefinição de senha chegam no Mailpit local: http://127.0.0.1:54324.
+
+## Verificar
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -o fibonacci Aula3/ex2_fibonacci.cpp
-./fibonacci
+pnpm lint && pnpm typecheck
+pnpm test        # unitários e os casos da seção 7 do domínio
+pnpm test:db     # isolamento entre empresas e regras no banco (com o Supabase local rodando)
+pnpm build
 ```
 
-## 📋 Requisitos
-
-* Compilador com suporte a C++17 (g++ 7+, clang 5+ ou MSVC 2017+)
+O CI roda tudo isso em cada push e PR.
