@@ -16,7 +16,7 @@ Para você executar. O Claude não recebe credencial de produção nem roda migr
 ## 2. Configurar o Auth (painel do Supabase → Authentication)
 1. [ ] **Sign In / Providers**: desligue **Allow new users to sign up** (cadastro só por convite). Deixe o provedor **Email** ligado.
 2. [ ] **Email**: confirmação de e-mail ligada; **Secure password change** ligado.
-3. [ ] **Passwords**: mínimo **10** caracteres, exigindo letras e números.
+3. [ ] **Passwords**: mínimo **10** caracteres, exigindo letras e números. Ligue também **Prevent use of leaked passwords** (consulta o HaveIBeenPwned; só no plano Pro).
 4. [ ] **Multi-Factor**: **TOTP** habilitado (enroll e verify).
 5. [ ] **URL Configuration**: *Site URL* = `https://SEU-DOMINIO`; *Redirect URLs* = `https://SEU-DOMINIO/**`.
 6. [ ] **Emails → SMTP Settings**: ligue o SMTP próprio (o e-mail padrão do Supabase tem limite baixo e não serve para produção).

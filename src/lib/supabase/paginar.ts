@@ -19,7 +19,8 @@ export async function buscarTodas<T>(
   for (let de = 0; ; de += TAMANHO_DA_PAGINA) {
     const { data, error } = await consulta(de, de + TAMANHO_DA_PAGINA - 1);
     if (error) {
-      throw new Error(`Falha ao consultar o banco: ${error.message}`);
+      // Texto fixo: a mensagem do Postgres pode trazer valores, e o Next registra o erro cru.
+      throw new Error('Falha ao consultar o banco.');
     }
     linhas.push(...(data ?? []));
     if (!data || data.length < TAMANHO_DA_PAGINA) {

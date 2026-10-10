@@ -37,6 +37,10 @@ Cinco funções das migrations da fase 2 ficaram com `EXECUTE` para `PUBLIC` (pa
 `braces <= 3.0.3` (negação de serviço por padrão aninhado) chega por `eslint-config-next → @next/eslint-plugin-next → fast-glob → micromatch`. Sem versão corrigida publicada. Só roda no lint, sobre padrões do próprio repositório, e não vai para produção.
 **Ação:** acompanhar a atualização do `eslint-config-next`; o CI barra vulnerabilidade alta nas dependências de produção.
 
+### F3 · Baixa · corrigida — usuário logado com TRUNCATE em quatro tabelas
+Achado na verificação da demonstração na nuvem (2026-10-10). A migration de cadastros não revogou `TRUNCATE` de `authenticated` em `formas_recebimento`, `plano_contas`, `parametros_mes` e `saldos_iniciais`. `TRUNCATE` ignora RLS e gatilhos de linha (trava de mês fechado, auditoria). A API do Supabase não executa `TRUNCATE`, então só uma sessão SQL direta com esse papel aproveitaria a brecha. `authenticated` também tinha `TRIGGER`, `REFERENCES` e `MAINTAIN`, que o app não usa.
+**Correção:** `20261010130000_revogar_privilegios_sobrando.sql` revoga os quatro de todas as tabelas e dos privilégios padrão. Teste: `catalogo.test.ts` ("usuário logado não tem TRUNCATE, TRIGGER, REFERENCES nem MAINTAIN").
+
 Nenhuma falha aberta.
 
 ## Como repetir

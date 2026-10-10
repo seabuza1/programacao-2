@@ -64,6 +64,29 @@ describe('catálogo do banco', () => {
     ).toEqual([]);
   });
 
+  it('usuário logado não tem TRUNCATE, TRIGGER, REFERENCES nem MAINTAIN em tabela nenhuma', () => {
+    // TRUNCATE ignora RLS e gatilhos de linha (trava de mês fechado, auditoria).
+    expect(
+      consultar(`
+        select c.relname || ':' || p.op
+        from pg_class c
+        cross join (values ('TRUNCATE'), ('TRIGGER'), ('REFERENCES'), ('MAINTAIN')) p (op)
+        where c.relnamespace = 'public'::regnamespace and c.relkind = 'r'
+          and has_table_privilege('authenticated', c.oid, p.op)
+      `),
+    ).toEqual([]);
+    // Nem nas tabelas que vierem depois.
+    expect(
+      consultar(`
+        select a.privilege_type
+        from pg_default_acl d, aclexplode(d.defaclacl) a
+        where d.defaclrole = 'postgres'::regrole and d.defaclnamespace = 'public'::regnamespace
+          and d.defaclobjtype = 'r' and a.grantee = 'authenticated'::regrole
+          and a.privilege_type in ('TRUNCATE', 'TRIGGER', 'REFERENCES', 'MAINTAIN')
+      `),
+    ).toEqual([]);
+  });
+
   it('funções security definer fixam o search_path', () => {
     expect(
       consultar(`
