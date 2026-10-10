@@ -65,12 +65,17 @@ pnpm supabase migration list   # todas devem aparecer em "Remote"
 
 ## 7. Primeira administradora
 1. [ ] Supabase → **Authentication → Users → Invite user** com o e-mail da administradora.
-2. [ ] Ela abre o e-mail, clica em **Continuar**, define a senha e cadastra o app autenticador.
+2. [ ] Ela abre o e-mail, clica em **Continuar** e define a senha (o app autenticador só é pedido com o segundo fator ligado, passo 5).
 3. [ ] No **SQL Editor**:
    ```sql
    update public.usuarios set admin_plataforma = true where email = 'EMAIL-DA-ADMINISTRADORA';
    ```
 4. [ ] Ela sai e entra de novo: o menu **Painel da administradora** aparece. Daí em diante, empresas e convites são criados pelo sistema.
+5. [ ] **Segundo fator:** a migration cria a exigência desligada (piloto, decisão 0008). Antes de dados reais de clientes, ligue no **SQL Editor**:
+   ```sql
+   update public.configuracao_plataforma set exigir_segundo_fator = true;
+   ```
+   No login seguinte, administradoras e donos cadastram o app autenticador.
 
 ## 8. Backups e recuperação ponto a ponto
 1. [ ] Plano Pro: backups diários automáticos (7 dias) em **Database → Backups**.

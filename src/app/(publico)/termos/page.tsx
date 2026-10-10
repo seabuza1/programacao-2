@@ -17,9 +17,10 @@ export default function Termos() {
       </p>
       <h2>2. Acesso</h2>
       <p>
-        O acesso é feito só por convite. Cada pessoa tem login próprio, pessoal e intransferível.
-        Administradores e donos usam segundo fator (aplicativo autenticador). A empresa é
-        responsável por quem ela pede para convidar e por avisar quando alguém deve perder o acesso.
+        O acesso é feito só por convite. Cada pessoa tem login próprio, pessoal e intransferível. O
+        segundo fator (aplicativo autenticador) pode ser exigido de administradores e donos. A
+        empresa é responsável por quem ela pede para convidar e por avisar quando alguém deve perder
+        o acesso.
       </p>
       <h2>3. Uso permitido</h2>
       <p>

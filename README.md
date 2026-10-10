@@ -25,8 +25,10 @@ Contas fictícias do seed (senha `Senha-ficticia-2026`):
 
 | E-mail | Papel |
 | --- | --- |
-| `admin@gestaofacil.test` | administradora da plataforma (pede segundo fator no primeiro login) |
+| `admin@gestaofacil.test` | administradora da plataforma |
 | `operadora@gestaofacil.test` | operadora da Loja Exemplo |
+
+O segundo fator está desligado no piloto (`docs/decisoes/0008-segundo-fator-no-piloto.md`): todos entram com e-mail e senha.
 
 E-mails de convite e de redefinição de senha chegam no Mailpit local: http://127.0.0.1:54324.
 

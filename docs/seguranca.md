@@ -31,7 +31,7 @@ Checklist para toda mudança. Se um item não se aplica, siga em frente; se se a
 ## Sessão e acesso
 
 - [ ] Cookies `HttpOnly`, `SameSite=Lax`, `Secure` em produção.
-- [ ] Segundo fator exigido no servidor e no banco para `admin_plataforma`, `admin` e `dono`.
+- [ ] Segundo fator exigido no servidor e no banco para `admin_plataforma`, `admin` e `dono` quando `configuracao_plataforma.exigir_segundo_fator` está ligada (desligada no piloto, decisão 0008). Ligar antes de dados reais.
 - [ ] `admin_plataforma` não dá acesso a dados. Acesso só por vínculo.
 - [ ] Cadastro aberto desligado (`enable_signup = false`). Só convite.
 - [ ] Redirecionamento só para rotas internas conhecidas (`rotaDeRetornoSegura`).

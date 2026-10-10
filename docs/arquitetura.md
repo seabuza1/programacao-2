@@ -55,7 +55,7 @@ Cada página chama `exigir…()` de novo: no App Router o layout não roda a cad
 
 - Toda tabela de negócio tem `id`, `empresa_id`, `created_at`, `updated_at`, `created_by`, preenchidos pelo trigger `definir_metadados`. `empresa_id` não muda depois de gravado.
 - RLS habilitado na mesma migration que cria a tabela, com policy por operação.
-- Acesso: `tem_acesso(empresa_id)` e `tem_papel(empresa_id, papeis)` consultam só `vinculos`. `mfa_ok()` exige sessão `aal2` de quem é `admin_plataforma`, `admin` ou `dono`.
+- Acesso: `tem_acesso(empresa_id)` e `tem_papel(empresa_id, papeis)` consultam só `vinculos`. `mfa_ok()` exige sessão `aal2` de quem é `admin_plataforma`, `admin` ou `dono`, se `configuracao_plataforma.exigir_segundo_fator` estiver ligada (decisão 0008).
 - `auditoria` é alimentada por trigger e só aceita insert (nem a chave secreta altera).
 - Funções `security definer` usam `search_path = ''` e nomes qualificados. Anônimo não tem permissão em nada.
 

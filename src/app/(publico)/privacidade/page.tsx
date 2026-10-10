@@ -38,8 +38,8 @@ export default function Privacidade() {
       <h2>5. Segurança</h2>
       <p>
         Acesso só por vínculo explícito com a empresa, isolamento entre empresas no banco de dados,
-        segundo fator para administradores e donos, conexão sempre criptografada e cópias de
-        segurança.
+        segundo fator para administradores e donos quando ativado, conexão sempre criptografada e
+        cópias de segurança.
       </p>
       <h2>6. Por quanto tempo guardamos</h2>
       <p>[Prazo de guarda durante e após o contrato e obrigações legais: preencher.]</p>

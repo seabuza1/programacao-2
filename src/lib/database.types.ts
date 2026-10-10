@@ -87,6 +87,25 @@ export type Database = {
           },
         ];
       };
+      configuracao_plataforma: {
+        Row: {
+          exigir_segundo_fator: boolean;
+          id: boolean;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          exigir_segundo_fator?: boolean;
+          id?: boolean;
+          updated_at?: string;
+        };
+        Update: {
+          exigir_segundo_fator?: boolean;
+          id?: boolean;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       empresas: {
         Row: {
           created_at: string;

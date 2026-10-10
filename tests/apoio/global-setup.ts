@@ -36,6 +36,27 @@ function lerSupabaseLocal(): AmbienteSupabase {
   return { url, publishableKey, secretKey, dbUrl };
 }
 
+function sql(dbUrl: string, comando: string): string {
+  return execFileSync('psql', [dbUrl, '-At', '-c', comando], { encoding: 'utf8' }).trim();
+}
+
+/**
+ * Os testes cobrem o segundo fator exigido (o modo mais restrito). O piloto roda com ele
+ * desligado (decisão 0008); tests/regras/segundo-fator.test.ts cobre esse modo.
+ * Ao terminar, devolve a configuração que o banco local tinha.
+ */
 export default function setup(project: TestProject) {
-  project.provide('supabase', lerSupabaseLocal());
+  const ambiente = lerSupabaseLocal();
+  project.provide('supabase', ambiente);
+  const anterior = sql(
+    ambiente.dbUrl,
+    'select exigir_segundo_fator from public.configuracao_plataforma',
+  );
+  sql(ambiente.dbUrl, 'update public.configuracao_plataforma set exigir_segundo_fator = true');
+  return () => {
+    sql(
+      ambiente.dbUrl,
+      `update public.configuracao_plataforma set exigir_segundo_fator = ${anterior === 'f' ? 'false' : 'true'}`,
+    );
+  };
 }
